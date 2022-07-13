@@ -1,0 +1,11 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "Utils",
+  "scripts": {
+    "test": "echo \"Test\""
+  },
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.118.1"
+  }
+}

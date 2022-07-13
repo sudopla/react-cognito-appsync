@@ -1,0 +1,83 @@
+type CognitoAttributes {
+  Name: String,
+  Value: String
+}
+type CognitoMFAOptions {
+  AttributeName: String,
+  DeliveryMedium: String
+}
+
+type CognitoUser {
+  Attributes: [ CognitoAttributes ],
+  Enabled: Boolean,
+  MFAOptions: [ CognitoMFAOptions ],
+  UserCreateDate: Int,
+  UserLastModifiedDate: Int,
+  Username: String,
+  UserStatus: String
+}
+
+type Album {
+  AlbumName: String,
+  Artist: String,
+  NumSongs: String,
+  RecordLabel: String,
+  ReleaseYear: String,
+  Sales: String
+}
+
+type PaginatedAlbums {
+  albums: [Album]
+  nextToken: String
+}
+
+type AWSNumberOfResources {
+  lambdas: Int,
+  tables: Int,
+  queues: Int,
+  streams: Int
+}
+
+type AWSCost {
+  date: String,
+  value: String
+}
+
+type Query {
+  getUsers: [ CognitoUser! ]!
+  @aws_auth(cognito_groups: ["Admin"])
+  allAlbums(limit: Int!, nextToken: String): PaginatedAlbums
+  artistAlbums(artist: String, nextToken: String): [ Album! ]!
+  awsNumberOfResources: AWSNumberOfResources
+  awsCosts: [ AWSCost! ] !
+}
+
+input UserInput {
+  email: String!
+  isAdmin: Boolean!,
+  name: String!,
+  lastName: String!
+}
+type User {
+  email: String!
+}
+
+input AlbumInput {
+  AlbumName: String,
+  Artist: String,
+  NumSongs: String,
+  RecordLabel: String,
+  ReleaseYear: String,
+  Sales: String
+}
+
+type Mutation {
+  createUser(input: UserInput!): User
+  @aws_auth(cognito_groups: ["Admin"])
+  newAlbum(input: AlbumInput!): Album
+}
+
+schema {
+	query: Query
+	mutation: Mutation
+}

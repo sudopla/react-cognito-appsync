@@ -1,46 +1,91 @@
-# Getting Started with Create React App
+# React-Cognito-AppSync
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a serverless project to play with React, Chakra UI, Apollo Client, Cognito, AppSync, Lambda and DynamoDB. It's developed using the [AWS CDK](https://aws.amazon.com/cdk/) and structured following [best practices](https://docs.aws.amazon.com/cdk/v2/guide/best-practices.html).
 
-## Available Scripts
+The application is organized into logical units, such as React site, GraphQL API, Cognito user pool, database and deployment pipeline. These logical units are implemented as [CDK Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html), which include the AWS resources definitions and sometimes also the runtime code. The constructs are later group in [CDK Stacks](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html), which define the deployment models.
 
-In the project directory, you can run:
+The CDK, Lambda functions and React code is written in [TypeScript](https://www.typescriptlang.org/).
 
-### `npm start`
+**Current Functionalities**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+ - Cognito sign in/sign out
+ - Cognito new user
+ - Cognito change/reset password
+ - Small AWS resources dashboard 
+ - Table
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Architecture
 
-### `npm test`
+This applications uses Cognito for authentication and user management. AppSync is used to implement the GraphQL API and some of the operations run on Lambda Functions. There's also a DynamoDB table with data that is written and read directly from AppSync using VTL templates or through the Lambda functions. 
+The website is hosted in a S3 bucket with a CloudFront distribution in front. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<img src="images/architecture.png" width="80%">
 
-### `npm run build`
+### Project Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Each logical unit has a directory that includes the related infrastructure, runtime and configuration code. This way, any developer can easily find the code related to a specific logical unit. 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    .
+    ├── cognito
+    |   |── cdk.ts                      # CDK construct with Cognito User Pool configuration
+    |
+    ├── database
+    |   |── cdk.ts                      # CDK construct with DynamoDB table resource
+    | 
+    ├── graphql-api
+    |   |── cdk.ts                      # CDK construct with AppSync and Lambda functions resources
+    |   |── <Lambda_Function_Name>      # A folder for each Lambda function with the name
+    |   |   |── index.ts                # Code for Lambda handler  
+    |   |── schema.graphql              # GraphQL schema
+    |   |── packages.json               # packages that needs to be bundle with the Lambda
+    |
+    ├── pipeline                
+    |   |── cdk.ts                      # CDK stack with deployment pipeline
+    |
+    ├── s3-react-app                    # React application
+    |   |── cdk.ts                      # CDK construct for static website configuration
+    |   |── src                         # React application code
+    |   |── packages.json               # packages for React app
+    |   |── tsconfig.json               # React TypeScript configuration
+    |   |── linters and formatters for React code (.eslintrc.json, prettierrc)  
+    |
+    |── scripts                         # Useful scripts         
+    |
+    |── app.ts                          # Main CDK application (Constructs are imported here and deployed within Stacks)
+    |
+    |── CDK linters, packages and TypeScript configuration (.eslintrc.json, tsconfig.json)
+    |
+    └── ...
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### How to deploy
 
-### `npm run eject`
+You can fork this repository and clone it to your local environment.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Then, if you want to deploy the application manually from your computer, please follow the next steps:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. `yarn install`
+2. You can change the name of the app in the `app.js` file. The default name is `React-App`
+3. Specify the AWS account number in the following environment variables
+    ```
+    export AWS_ACCOUNT=
+    ```
+3. `yarn run cdk <app-name>-AppSyncStack <app-name>-CognitoStack <app-name>-TableStack`
+4. Configure the following environment variables
+    ```
+    export REACT_APP_USER_POOL_ID=
+    export REACT_APP_WEBCLIENT_ID=
+    export REACT_APP_API_URL=
+    ```
+5. `cd s3-react-ap && yarn build`
+6. `yarn run cdk <app-name>-StaticSiteStack`
+7. Need to create the first Cognito user running the following script
+```
+npx ts-node scripts/create_cognito_user.ts 'email_address' 'name' 'last_name' Admin
+```
+8. You are ready to log into the app! Get the URL from the `<app-name>-StaticSiteStack` output in the previous step. You can also log into the AWS console and find it in the CloudFront distribution. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Useful commands
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+* `cdk deploy`      deploy stacks to your AWS account/region
+* `cdk diff`        compare deployed stack with current state
+* `cdk synth`       emits the synthesized CloudFormation template
