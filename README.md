@@ -12,11 +12,11 @@ The CDK, Lambda functions and React code is written in [TypeScript](https://www.
  - Cognito new user
  - Cognito change/reset password
  - Small AWS resources dashboard 
- - Table
+ - Write/Read DynamoDB Table
 
 ### Architecture
 
-This applications uses Cognito for authentication and user management. AppSync is used to implement the GraphQL API and some of the operations run on Lambda Functions. There's also a DynamoDB table with data that is written and read directly from AppSync using VTL templates or through the Lambda functions. 
+This application uses Cognito for authentication and user management. AppSync is used to implement the GraphQL API and some of the operations run on Lambda Functions. There's also a DynamoDB table with data that is written and read directly from AppSync using VTL templates or through the Lambda functions. 
 The website is hosted in a S3 bucket with a CloudFront distribution in front. 
 
 <img src="images/architecture.png" width="80%">
@@ -64,24 +64,33 @@ You can fork this repository and clone it to your local environment.
 Then, if you want to deploy the application manually from your computer, please follow the next steps:
 
 1. `yarn install`
-2. You can change the name of the app in the `app.js` file. The default name is `React-App`
-3. Specify the AWS account number in the following environment variables
+2. You can change the name of the app in the [app.js](/app.ts) file. The default name is `React-App`
+3. Specify the AWS account number in the following environment variable
     ```
     export AWS_ACCOUNT=
     ```
-3. `yarn run cdk <app-name>-AppSyncStack <app-name>-CognitoStack <app-name>-TableStack`
+3. Deploy the following CDK stacks
+    ```
+    yarn run cdk <app-name>-AppSyncStack <app-name>-CognitoStack <app-name>-TableStack`
+    ```
 4. Configure the following environment variables
     ```
     export REACT_APP_USER_POOL_ID=
     export REACT_APP_WEBCLIENT_ID=
     export REACT_APP_API_URL=
     ```
-5. `cd s3-react-ap && yarn build`
-6. `yarn run cdk <app-name>-StaticSiteStack`
-7. Need to create the first Cognito user running the following script
-```
-npx ts-node scripts/create_cognito_user.ts 'email_address' 'name' 'last_name' Admin
-```
+5. Build the React app
+    ```
+    cd s3-react-ap && yarn build
+    ```
+6. Deploy the static website
+    ```
+    yarn run cdk <app-name>-StaticSiteStack`
+    ```
+7. Create the first Cognito user
+    ```
+    npx ts-node scripts/create_cognito_user.ts 'email_address' 'name' 'last_name' Admin
+    ```
 8. You are ready to log into the app! Get the URL from the `<app-name>-StaticSiteStack` output in the previous step. You can also log into the AWS console and find it in the CloudFront distribution. 
 
 ### Useful commands
