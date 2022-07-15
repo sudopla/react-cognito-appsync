@@ -108,8 +108,8 @@ new CodePipelineStack(app, 'DeploymentPipelineStack', {
 ```
 4. `yarn install`
 5. `yarn run cdk deploy <app-name>-Pipeline-Stack`
-6. Please notice that you will have to run the deployment pipeline a few times because of some dependencies between stacks. I could've configured these dependencies manually in the CDK, but then every time you would deploy a change manually, it would take longer, and the same would also apply to the pipeline. 
-The idea is to speed up the deployments and feedback loop. 
+6. Please notice that you will have to run the deployment pipeline a few times when deploying the app for the first time. This's because of some dependencies between stacks. I could've declared these dependencies manually in the CDK, but then every time you would deploy a change manually, it would take longer, and the same would also apply to the pipeline. 
+The idea is to speed up the deployments and feedback loop.
 7. Perform step 7 from above
 
 ### Useful commands
