@@ -5,6 +5,7 @@ import { Construct } from 'constructs'
 import { Cognito } from './cognito/cdk'
 import { Table } from './database/cdk'
 import { AppSyncApi } from './graphql-api/cdk'
+import { DeploymentPipeline } from './pipeline/cdk'
 import { StaticSite } from './s3-react-app/cdk'
 import { getAwsAccount, getAwsRegion } from './utils'
 
@@ -74,4 +75,23 @@ class StaticSiteStack extends Stack {
 new StaticSiteStack(app, `${appName}-StaticSiteStack`, {
   env: awsEnv,
   description: `${appName} Static Site Stack`
+})
+
+// Deployment Pipeline
+class DeployementPipelineStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props)
+
+    new DeploymentPipeline(this, 'DeploymentPipeline', {
+      awsAccount: awsEnv.account,
+      awsRegion: awsEnv.region,
+      repoOwner: 'sudopla',
+      repoName: 'react-cognito-appsync',
+      appName
+    })
+  }
+}
+new DeployementPipelineStack(app, `${appName}-DeploymentPipelineStack`, {
+  env: awsEnv,
+  description: `${appName} Deployment Pipeline Stack`
 })

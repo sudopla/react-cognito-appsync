@@ -69,9 +69,10 @@ Then, if you want to deploy the application manually from your computer, please 
     ```
     export AWS_ACCOUNT=
     ```
-3. Deploy the following CDK stacks
+3. Deploy the following CDK stacks in this order
     ```
-    yarn run cdk <app-name>-AppSyncStack <app-name>-CognitoStack <app-name>-TableStack`
+    yarn run cdk deploy <app-name>-CognitoStack <app-name>-TableStack`
+    yarn run cdk deploy <app-name>-AppSyncStack`
     ```
 4. Configure the following environment variables
     ```
