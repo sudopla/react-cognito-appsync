@@ -86,13 +86,31 @@ Then, if you want to deploy the application manually from your computer, please 
     ```
 6. Deploy the static website
     ```
-    yarn run cdk <app-name>-StaticSiteStack`
+    yarn run cdk deploy <app-name>-StaticSiteStack`
     ```
 7. Create the first Cognito user
     ```
     npx ts-node scripts/create_cognito_user.ts 'email_address' 'name' 'last_name' Admin
     ```
-8. You are ready to log into the app! Get the URL from the `<app-name>-StaticSiteStack` output in the previous step. You can also log into the AWS console and find it in the CloudFront distribution. 
+8. You are ready to log into the app! Get the URL from the `<app-name>-StaticSiteStack` output in the previous step. You can also log into the AWS console and find it in the CloudFront distribution.
+
+To deploy the application through the deployment pipeline, follow these steps:
+
+1. Create [AWS CodeStart GitHub connection](https://docs.aws.amazon.com/codepipeline/latest/userguide/connections-github.html)
+    - Create SSM parameter for the connection ARN and assign the following name `Github-Connection`
+2. Perform steps 2 and 3 from manual deployment above
+3. Modify the [app.js](/app.ts) file and enter your Github user and the repo name
+```typescript
+new CodePipelineStack(app, 'DeploymentPipelineStack', {
+  repoOwner: <github_user>,
+  repoName: <repo_name>
+})
+```
+4. `yarn install`
+5. `yarn run cdk deploy <app-name>-Pipeline-Stack`
+6. Please notice that you will have to run the deployment pipeline a few times because of some dependencies between stacks. I could've configured these dependencies manually in the CDK, but then every time you would deploy a change manually, it would take longer, and the same would also apply to the pipeline. 
+The idea is to speed up the deployments and feedback loop. 
+7. Perform step 7 from above
 
 ### Useful commands
 
