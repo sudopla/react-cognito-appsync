@@ -112,7 +112,7 @@ export class DeploymentPipeline extends Construct {
                 'yarn install'
               ],
               buildCommands: [
-                'yarn run cdk deploy <app-name>-CognitoStack <app-name>-TableStack --require-approval never'
+                `yarn run cdk deploy ${props.appName}-CognitoStack ${props.appName}-TableStack --require-approval never`
               ]
             }),
             buildAction({
@@ -126,7 +126,7 @@ export class DeploymentPipeline extends Construct {
                 'yarn install'
               ],
               buildCommands: [
-                'yarn run cdk deploy <app-name>-AppSyncStack --require-approval never'
+                `yarn run cdk deploy ${props.appName}-AppSyncStack --require-approval never`
               ]
             }),
             buildAction({
@@ -137,6 +137,9 @@ export class DeploymentPipeline extends Construct {
               awsRegion: props.awsRegion,
               actionName: 'DeployStaticSiteStack',
               environmentVariables: {
+                DEPLOY_SITE: {
+                  value: 'true'
+                },
                 REACT_APP_USER_POOL_ID: {
                   type: codebuild.BuildEnvironmentVariableType.PARAMETER_STORE,
                   value: `/${props.appName}/cognito/userPoolId`
@@ -151,13 +154,13 @@ export class DeploymentPipeline extends Construct {
                 }
               },
               installCommands: [
-                'cd s3-react-ap',
+                'cd s3-react-app',
                 'yarn install'
               ],
               buildCommands: [
                 'yarn build',
                 'cd ..',
-                'yarn run cdk deploy <app-name>-StaticSiteStack --require-approval never'
+                `yarn run cdk deploy ${props.appName}-StaticSiteStack --require-approval never`
               ]
             })
           ]

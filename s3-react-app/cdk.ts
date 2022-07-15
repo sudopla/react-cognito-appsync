@@ -27,13 +27,16 @@ export class StaticSite extends Construct {
       }
     })
 
-    new s3_deployment.BucketDeployment(this, 'ReactAppDeployment', {
-      sources: [s3_deployment.Source.asset(path.join(__dirname, 'build'))],
-      destinationBucket: websiteBucket,
-      distribution: cfDistribution,
-      distributionPaths: ['/*']
-    })
-
+    // Only deploy site when this env variable is defined - avoid issues with missing build folder
+    if (process.env.DEPLOY_SITE) {
+        new s3_deployment.BucketDeployment(this, 'ReactAppDeployment', {
+            sources: [s3_deployment.Source.asset(path.join(__dirname, 'build'))],
+            destinationBucket: websiteBucket,
+            distribution: cfDistribution,
+            distributionPaths: ['/*']
+          })
+    }
+    
     new CfnOutput(this, 'SiteUrl', {
         value: cfDistribution.distributionDomainName
     })

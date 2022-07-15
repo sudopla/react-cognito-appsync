@@ -117,3 +117,8 @@ The idea is to speed up the deployments and feedback loop.
 * `cdk deploy`      deploy stacks to your AWS account/region
 * `cdk diff`        compare deployed stack with current state
 * `cdk synth`       emits the synthesized CloudFormation template
+
+### Application Screenshots
+
+<img src="images/app_screenshot_1.png" width="80%">
+<img src="images/app_screenshot_2.png" width="80%">
