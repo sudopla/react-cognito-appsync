@@ -79,6 +79,7 @@ Then, if you want to deploy the application manually from your computer, please 
     export REACT_APP_USER_POOL_ID=
     export REACT_APP_WEBCLIENT_ID=
     export REACT_APP_API_URL=
+    export DEPLOY_SITE=true
     ```
 5. Build the React app
     ```
