@@ -3,7 +3,7 @@ import { CognitoIdentityProviderClient, ListUsersCommand, ListUsersCommandOutput
 
 type CognitoUser = ListUsersCommandOutput['Users']
 
-const cognito = new CognitoIdentityProviderClient({ region: process.env.AWS_REGIONS })
+const cognito = new CognitoIdentityProviderClient({ region: process.env.AWS_REGION })
 
 export const lambdaHandler = async (event: {}): Promise<CognitoUser| Error> => {
   console.log(event)

@@ -14,7 +14,7 @@ interface User {
   email: string
 }
 
-const cognito = new CognitoIdentityProviderClient({ region: process.env.AWS_REGIONS })
+const cognito = new CognitoIdentityProviderClient({ region: process.env.AWS_REGION })
 
 export const lambdaHandler = async (event: CreateUserEvent): Promise<User | Error> => {
   console.log(event)

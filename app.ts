@@ -6,6 +6,7 @@ import { Cognito } from './cognito/cdk'
 import { Table } from './database/cdk'
 import { AppSyncApi } from './graphql-api/cdk'
 import { DeploymentPipeline } from './pipeline/cdk'
+import { FilesBucket } from './s3-files-bucket/cdk'
 import { StaticSite } from './s3-react-app/cdk'
 import { getAwsAccount, getAwsRegion } from './utils'
 
@@ -15,6 +16,7 @@ const awsEnv = { account: getAwsAccount(), region: getAwsRegion() }
 const app = new cdk.App()
 const appName = 'React-App'
 const tableName = `${appName}-Table`
+const bucketName = `${appName.toLowerCase()}-s3-files-bucket`
 
 // Cognito
 class CognitoStack extends Stack {
@@ -22,7 +24,8 @@ class CognitoStack extends Stack {
     super(scope, id, props)
 
     new Cognito(this, 'CognitoUserPool', {
-      appName
+      appName,
+      bucketName
     })
   }
 }
@@ -75,6 +78,21 @@ class StaticSiteStack extends Stack {
 new StaticSiteStack(app, `${appName}-StaticSiteStack`, {
   env: awsEnv,
   description: `${appName} Static Site Stack`
+})
+
+// S3 Files Bucket
+class FilesBucketStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props)
+
+    new FilesBucket(this, 'Bucket', {
+      bucketName
+    })
+  }
+}
+new FilesBucketStack(app, `${appName}-FilesBucketStack`, {
+  env: awsEnv,
+  description: `${appName} Files Bucket Stack`
 })
 
 // Deployment Pipeline

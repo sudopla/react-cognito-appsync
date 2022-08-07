@@ -107,12 +107,12 @@ export class DeploymentPipeline extends Construct {
               codeBuildRole: codeBuildRole,
               awsAccount: props.awsAccount,
               awsRegion: props.awsRegion,
-              actionName: 'DeployCognitoTableStack',
+              actionName: 'DeployCognitoTableOtherResourcesStack',
               installCommands: [
                 'yarn install'
               ],
               buildCommands: [
-                `yarn run cdk deploy ${props.appName}-CognitoStack ${props.appName}-TableStack --require-approval never`
+                `yarn run cdk deploy ${props.appName}-CognitoStack ${props.appName}-TableStack ${props.appName}-FilesBucketStack --require-approval never`
               ]
             }),
             buildAction({

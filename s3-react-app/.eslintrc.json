@@ -24,7 +24,7 @@
     "project": "./tsconfig.json"
   },
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
-  "ignorePatterns": ["*.css", "*.svg", "*.js", "*.d.ts", "node_modules/", "coverage"],
+  "ignorePatterns": ["*.css", "*.svg", "*.js", "*.d.ts", "node_modules/", "coverage", "cdk.ts"],
   "rules": {
     "linebreak-style": "off",
     "react-hooks/rules-of-hooks": "error",
