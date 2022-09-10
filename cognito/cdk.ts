@@ -94,6 +94,12 @@ export class Cognito extends Construct {
       resources: [`arn:aws:s3:::${props.bucketName}`, `arn:aws:s3:::${props.bucketName}/*`]
     }))
 
+    new ssm.StringParameter(this, 'IdentityPoolId', {
+      description: `${props.appName} Identity Pool ID`,
+      parameterName: `/${props.appName}/cognito/identityPoolId`,
+      stringValue: identityPool.identityPoolId
+    })
+
     /**
      * User Pool Admin group and Role
      */

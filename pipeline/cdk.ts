@@ -148,6 +148,10 @@ export class DeploymentPipeline extends Construct {
                   type: codebuild.BuildEnvironmentVariableType.PARAMETER_STORE,
                   value: `/${props.appName}/cognito/webClientId`
                 },
+                REACT_APP_IDENTITY_POOL_ID: {
+                  type: codebuild.BuildEnvironmentVariableType.PARAMETER_STORE,
+                  value: `/${props.appName}/cognito/identityPoolId`
+                },
                 REACT_APP_API_URL: {
                   type: codebuild.BuildEnvironmentVariableType.PARAMETER_STORE,
                   value: `/${props.appName}/graphqlUrl`
