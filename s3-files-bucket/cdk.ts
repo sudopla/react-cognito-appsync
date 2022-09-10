@@ -11,10 +11,16 @@ export class FilesBucket extends Construct {
 
     new s3.Bucket(this, 'Bucket', {
       bucketName: props.bucketName,
-      encryption: s3.BucketEncryption.KMS_MANAGED,
+      encryption: s3.BucketEncryption.S3_MANAGED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       cors: [{
-        allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.POST, s3.HttpMethods.DELETE, s3.HttpMethods.HEAD],
+        allowedMethods: [
+          s3.HttpMethods.GET,
+          s3.HttpMethods.POST,
+          s3.HttpMethods.PUT,
+          s3.HttpMethods.DELETE,
+          s3.HttpMethods.HEAD
+        ],
         allowedHeaders: ['*'],
         exposedHeaders: ['ETag'],
         allowedOrigins: ['*'] // NEED TO CHANGE THIS LATER
