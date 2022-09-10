@@ -3,9 +3,6 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { Auth } from 'aws-amplify'
 import {
   ChakraProvider,
-  Grid,
-  Flex,
-  VStack,
   Box,
   Drawer,
   DrawerContent,
@@ -18,6 +15,7 @@ import TopNav from 'components/TopNav/TopNav'
 import HomePage from 'views/HomePage'
 import ProfilePage from 'views/ProfilePage'
 import TablePage from 'views/Table'
+import FilesPage from 'views/Files'
 import LoginForm from 'components/Auth/Login'
 import ChangePassword from 'components/Auth/ChangePassword'
 import ResetPassword from 'components/Auth/ResetPassword'
@@ -108,6 +106,10 @@ const App = () => {
               <Route
                 path="/table"
                 element={authCtx?.isLoggedIn ? <TablePage /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/files"
+                element={authCtx?.isLoggedIn ? <FilesPage /> : <Navigate to="/login" />}
               />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>

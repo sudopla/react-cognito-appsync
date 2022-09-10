@@ -8,7 +8,7 @@ import {
   useColorModeValue,
   Heading
 } from '@chakra-ui/react'
-import { AiFillDashboard, AiOutlineTable } from 'react-icons/ai'
+import { AiFillDashboard, AiOutlineTable, AiOutlineFileText } from 'react-icons/ai'
 import { IconType } from 'react-icons'
 import NavItem from './NavItem'
 
@@ -24,7 +24,8 @@ interface LinkItemProps {
 const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
   const LinkItems: Array<LinkItemProps> = [
     { name: 'Dashboard', linkPath: '/', icon: AiFillDashboard },
-    { name: 'Table', linkPath: '/table', icon: AiOutlineTable }
+    { name: 'Table', linkPath: '/table', icon: AiOutlineTable },
+    { name: 'Files', linkPath: '/files', icon: AiOutlineFileText }
   ]
 
   return (

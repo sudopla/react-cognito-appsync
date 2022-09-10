@@ -5,7 +5,7 @@ interface AwsCost {
   value: string
 }
 
-const client = new CostExplorerClient({ region: process.env.AWS_REGIONS })
+const client = new CostExplorerClient({ region: process.env.AWS_REGION })
 
 export const lambdaHandler = async (): Promise<AwsCost[] | Error> => {
 

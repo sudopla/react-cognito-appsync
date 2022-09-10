@@ -17,6 +17,7 @@ Auth.configure({
   region: 'us-east-1',
   userPoolId: process.env.REACT_APP_USER_POOL_ID, // Cognito User Pool ID
   userPoolWebClientId: process.env.REACT_APP_WEBCLIENT_ID, // Cognito Web Client ID
+  identityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID, // Only if using Cognito Identity Pool
   mandatorySignIn: true,
   authenticationFlowType: 'USER_SRP_AUTH'
 })

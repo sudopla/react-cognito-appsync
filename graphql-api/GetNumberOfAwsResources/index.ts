@@ -10,7 +10,7 @@ interface NumberOfResources {
   streams: number
 }
 
-const lambdaClient = new LambdaClient({ region: process.env.AWS_REGIONS })
+const lambdaClient = new LambdaClient({ region: process.env.AWS_REGION })
 const dynamoClient = new DynamoDBClient({ region: process.env.AWS_REGION })
 const sqsClient = new SQSClient({ region: process.env.AWS_REGION })
 const kinesisClient = new KinesisClient({ region: process.env.AWS_REGION })
