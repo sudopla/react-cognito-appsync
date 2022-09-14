@@ -1,6 +1,6 @@
 # React-Cognito-AppSync
 
-This is a serverless project to play with React, Chakra UI, Apollo Client, Cognito, AppSync, Lambda and DynamoDB. It's developed using the [AWS CDK](https://aws.amazon.com/cdk/) and structured following [best practices](https://docs.aws.amazon.com/cdk/v2/guide/best-practices.html).
+This is a serverless project to play with React, Chakra UI, Apollo Client, Cognito, AppSync, Lambda, S3 and DynamoDB. It's developed using the [AWS CDK](https://aws.amazon.com/cdk/) and structured following [best practices](https://docs.aws.amazon.com/cdk/v2/guide/best-practices.html).
 
 The application is organized into logical units, such as React site, GraphQL API, Cognito user pool, database and deployment pipeline. These logical units are implemented as [CDK Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html), which include the AWS resources definitions and sometimes also the runtime code. The constructs are later group in [CDK Stacks](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html), which define the deployment models.
 
@@ -12,11 +12,12 @@ The CDK, Lambda functions and React code is written in [TypeScript](https://www.
  - Cognito new user
  - Cognito change/reset password
  - Small AWS resources dashboard 
- - Write/Read DynamoDB Table
+ - Write/Read DynamoDB table
+ - List/Upload S3 bucket files
 
 ### Architecture
 
-This application uses Cognito for authentication and user management. AppSync is used to implement the GraphQL API and some of the operations run on Lambda Functions. There's also a DynamoDB table with data that is written and read directly from AppSync using VTL templates or through the Lambda functions. 
+This application uses Cognito user pools for authentication and user management. Cognito identity pools is also used to generate temporary AWS credentials to manage files on a S3 bucket. AppSync is used to implement the GraphQL API and some of the operations run on Lambda Functions. There's also a DynamoDB table with data that is written and read directly from AppSync using VTL templates or through the Lambda functions. 
 The website is hosted in a S3 bucket with a CloudFront distribution in front. 
 
 <img src="images/architecture.png" width="80%">
@@ -40,7 +41,10 @@ Each logical unit has a directory that includes the related infrastructure, runt
     |   |── packages.json               # packages that needs to be bundle with the Lambda
     |
     ├── pipeline                
-    |   |── cdk.ts                      # CDK stack with deployment pipeline
+    |   |── cdk.ts                      # CDK construct for deployment pipeline
+    |
+    ├── s3-files-bucket
+    |   ├── cdk.ts                      # CDK construct for S3 files bucket
     |
     ├── s3-react-app                    # React application
     |   |── cdk.ts                      # CDK construct for static website configuration
@@ -123,3 +127,4 @@ The idea is to speed up the deployments and feedback loop.
 
 <img src="images/app_screenshot_1.png" width="80%">
 <img src="images/app_screenshot_2.png" width="80%">
+<img src="images/app_screenshot_3.png" width="80%">

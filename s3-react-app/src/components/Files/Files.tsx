@@ -73,7 +73,7 @@ const FilesContent = () => {
               <Heading as="h4" size="lg" ml="5">
                 Files
               </Heading>
-              <Button onClick={onOpen}>New File</Button>
+              <Button onClick={onOpen}>Upload File</Button>
             </Flex>
             <Table variant="simple">
               <Thead>
