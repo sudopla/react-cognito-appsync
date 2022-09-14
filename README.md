@@ -13,11 +13,11 @@ The CDK, Lambda functions and React code is written in [TypeScript](https://www.
  - Cognito change/reset password
  - Small AWS resources dashboard 
  - Write/Read DynamoDB table
- - List/Upload S3 bucket files
+ - List/Upload S3 files
 
 ### Architecture
 
-This application uses Cognito user pools for authentication and user management. Cognito identity pools is also used to generate temporary AWS credentials to manage files on a S3 bucket. AppSync is used to implement the GraphQL API and some of the operations run on Lambda Functions. There's also a DynamoDB table with data that is written and read directly from AppSync using VTL templates or through the Lambda functions. 
+This application uses Cognito user pools for authentication and user management. Cognito identity pools is also used to generate temporary AWS credentials to manage files on the S3 bucket. AppSync is used to implement the GraphQL API and some of the operations run on Lambda Functions. There's also a DynamoDB table with data that is written and read directly from AppSync using VTL templates or through the Lambda functions. 
 The website is hosted in a S3 bucket with a CloudFront distribution in front. 
 
 <img src="images/architecture.png" width="80%">
