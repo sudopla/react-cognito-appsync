@@ -105,7 +105,8 @@ class DeployementPipelineStack extends Stack {
       awsRegion: awsEnv.region,
       repoOwner: 'sudopla',
       repoName: 'react-cognito-appsync',
-      appName
+      appName,
+      bucketName
     })
   }
 }

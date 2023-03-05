@@ -63,7 +63,8 @@ export interface DeploymentPipelineProps {
   awsRegion: string,
   repoOwner: string,
   repoName: string,
-  appName: string
+  appName: string,
+  bucketName: string
 }
 
 export class DeploymentPipeline extends Construct {
@@ -155,6 +156,10 @@ export class DeploymentPipeline extends Construct {
                 REACT_APP_API_URL: {
                   type: codebuild.BuildEnvironmentVariableType.PARAMETER_STORE,
                   value: `/${props.appName}/graphqlUrl`
+                },
+                REACT_APP_FILES_BUCKET_NAME: {
+                  type: codebuild.BuildEnvironmentVariableType.PLAINTEXT,
+                  value: props.bucketName
                 }
               },
               installCommands: [

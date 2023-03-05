@@ -23,7 +23,12 @@ export class StaticSite extends Construct {
     })
 
     const cfDistribution = new cloudfront.Distribution(this, 'CFDistribution', {
-      defaultBehavior: { origin: new cloudfront_origins.S3Origin(websiteBucket) }
+      defaultBehavior: { origin: new cloudfront_origins.S3Origin(websiteBucket) },
+      errorResponses: [{
+        httpStatus: 404,
+        responseHttpStatus: 200,
+        responsePagePath: '/index.html'
+      }]
     })
 
     // Only deploy site when this env variable is defined - avoid issues with missing build folder
